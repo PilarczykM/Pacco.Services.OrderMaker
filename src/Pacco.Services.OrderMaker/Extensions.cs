@@ -19,49 +19,48 @@ using Pacco.Services.OrderMaker.Events.External;
 using Pacco.Services.OrderMaker.Services;
 using Pacco.Services.OrderMaker.Services.Clients;
 
-namespace Pacco.Services.OrderMaker
+namespace Pacco.Services.OrderMaker;
+
+public static class Extensions
 {
-    public static class Extensions
-    {
-        public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
-        {
-            builder
-                .AddErrorHandler<ExceptionToResponseMapper>()
-                .AddHttpClient()
-                .AddConsul()
-                .AddFabio()
-                .AddCommandHandlers()
-                .AddEventHandlers()
-                .AddInMemoryCommandDispatcher()
-                .AddInMemoryEventDispatcher()
-                .AddRedis()
-                .AddMetrics()
-                .AddRabbitMq()
-                .AddWebApiSwaggerDocs()
-                .AddSecurity();
+	public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
+	{
+		builder
+				.AddErrorHandler<ExceptionToResponseMapper>()
+				.AddHttpClient()
+				.AddConsul()
+				.AddFabio()
+				.AddCommandHandlers()
+				.AddEventHandlers()
+				.AddInMemoryCommandDispatcher()
+				.AddInMemoryEventDispatcher()
+				.AddRedis()
+				.AddMetrics()
+				.AddRabbitMq()
+				.AddWebApiSwaggerDocs()
+				.AddSecurity();
 
-            builder.Services.AddChronicle();
-            builder.Services.AddTransient<IAvailabilityServiceClient, AvailabilityServiceClient>();
-            builder.Services.AddTransient<IVehiclesServiceClient, VehiclesServiceClient>();
-            builder.Services.AddTransient<IResourceReservationsService, ResourceReservationsService>();
-            
-            return builder;
-        }
+		builder.Services.AddChronicle();
+		builder.Services.AddTransient<IAvailabilityServiceClient, AvailabilityServiceClient>();
+		builder.Services.AddTransient<IVehiclesServiceClient, VehiclesServiceClient>();
+		builder.Services.AddTransient<IResourceReservationsService, ResourceReservationsService>();
 
-        public static IApplicationBuilder UseApp(this IApplicationBuilder app)
-        {
-            app.UseErrorHandler()
-                .UseSwaggerDocs()
-                .UseConvey()
-                .UseMetrics()
-                .UseRabbitMq()
-                .SubscribeEvent<OrderApproved>()
-                .SubscribeEvent<OrderCreated>()
-                .SubscribeEvent<ParcelAddedToOrder>()
-                .SubscribeEvent<ResourceReserved>()
-                .SubscribeEvent<VehicleAssignedToOrder>();
+		return builder;
+	}
 
-            return app;
-        }
-    }
+	public static IApplicationBuilder UseApp(this IApplicationBuilder app)
+	{
+		app.UseErrorHandler()
+				.UseSwaggerDocs()
+				.UseConvey()
+				.UseMetrics()
+				.UseRabbitMq()
+				.SubscribeEvent<OrderApproved>()
+				.SubscribeEvent<OrderCreated>()
+				.SubscribeEvent<ParcelAddedToOrder>()
+				.SubscribeEvent<ResourceReserved>()
+				.SubscribeEvent<VehicleAssignedToOrder>();
+
+		return app;
+	}
 }

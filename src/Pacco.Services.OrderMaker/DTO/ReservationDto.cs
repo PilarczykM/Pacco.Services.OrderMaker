@@ -1,10 +1,9 @@
 using System;
 
-namespace Pacco.Services.OrderMaker.DTO
+namespace Pacco.Services.OrderMaker.DTO;
+
+public class ReservationDto
 {
-    public class ReservationDto
-    {
-        public DateTime DateTime { get; set; }
-        public int Priority { get; set; }
-    }
+	public DateTime DateTime { get; set; }
+	public int Priority { get; set; }
 }

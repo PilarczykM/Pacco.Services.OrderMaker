@@ -2,18 +2,17 @@ using System;
 using Convey.CQRS.Events;
 using Convey.MessageBrokers;
 
-namespace Pacco.Services.OrderMaker.Events.External
-{
-    [Message("availability")]
-    public class ResourceReserved : IEvent
-    {
-        public Guid ResourceId { get; }
-        public DateTime DateTime { get; }
+namespace Pacco.Services.OrderMaker.Events.External;
 
-        public ResourceReserved(Guid resourceId, DateTime dateTime)
-        {
-            ResourceId = resourceId;
-            DateTime = dateTime;
-        }
-    }
+[Message("availability")]
+public class ResourceReserved : IEvent
+{
+	public Guid ResourceId { get; }
+	public DateTime DateTime { get; }
+
+	public ResourceReserved(Guid resourceId, DateTime dateTime)
+	{
+		ResourceId = resourceId;
+		DateTime = dateTime;
+	}
 }
